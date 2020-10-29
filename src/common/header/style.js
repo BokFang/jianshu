@@ -42,7 +42,15 @@ export const WriteBtn = styled.a`
   padding: 6px 12px;
 `
 
-export const NavItem = styled.li`
+export const NavItemWrapper = styled.div`
+  display: flex;
+`
+
+export const SeacrhWrapper = styled.div`
+  position: relative;
+`
+
+export const NavItem = styled.a`
   margin-right: 10px;
   line-height: 20px;
   box-sizing: border-box;
@@ -51,6 +59,7 @@ export const NavItem = styled.li`
   padding: 15px;
   &.nav-active {
     color: #ea6f5a;
+    text-decoration: none;
   }
 `
 export const NavSearch = styled.input`
@@ -66,12 +75,31 @@ export const NavSearch = styled.input`
   border: none;
   outline: none;
   margin-top: 9px;
+  &.slide-enter {
+    transition: all .4s ease-out;
+  }
+  &.slide-enter-active {
+    width: 240px;
+  }
+  &.slide-exit {
+    transition: all .4s ease-out;
+  }
+  &.slide-exit-active {
+    width: 160px;
+  }
+  &.focused {
+    width: 240px;
+  }
 `
 export const NavLogin = styled.div`
   color: #969696;
   margin: 11px 6px 0 10px;
   font-size: 15px;
   padding: 10px 12px;
+`
+
+export const NavRightWrapper = styled.div`
+  display: flex;
 `
 
 export const NavRegistered = styled.div`
@@ -85,4 +113,22 @@ export const NavRegistered = styled.div`
   color: #ea6f5a;
   text-align: center;
   user-select: none;
+`
+
+export const SvgAa = styled.svg`
+  line-height: 20px;
+  padding: 17px 10px;
+  font-size: 24px;
+`
+
+export const SvgMagnifier = styled.svg`
+  position: absolute;
+  top: 12px;
+  right: 8px;
+  width: 30px;
+  height: 30px!important;
+  line-height: normal!important;
+  padding: 0!important;
+  color: #969696!important;
+  text-align: center;
 `
