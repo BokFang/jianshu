@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from "react-redux";
 import { CSSTransition } from 'react-transition-group';
 import {
   HeaderWrapper,
@@ -16,62 +17,62 @@ import {
   SeacrhWrapper
 } from "./style";
 
+const Header = (props) => {
+  return (
+    <HeaderWrapper>
+      <Logo href="/" />
+      <NavbarCollapse>
+        <NavItemWrapper>
+          <NavItem className="nav-active" href="/">首页</NavItem>
+          <NavItem>下载App</NavItem>
+          <SeacrhWrapper>
+            <CSSTransition
+              in={props.focused}
+              timeout={400}
+              classNames="slide"
+            >
+              <NavSearch
+                placeholder="搜索"
+                className={props.focused ? "focused" : ""}
+                onFocus={props.searchOnFocus}
+                onBlur={props.searchOnBlur}
+              ></NavSearch>
+            </CSSTransition>
+            <SvgMagnifier className="icon"><use xlinkHref="#icon-magnifier"></use></SvgMagnifier>
+          </SeacrhWrapper>
+        </NavItemWrapper>
+        <NavRightWrapper>
+          <SvgAa className="icon"><use xlinkHref="#icon-Aa"></use></SvgAa>
+          <NavLogin>登录</NavLogin>
+          <NavRegistered>注册</NavRegistered>
+        </NavRightWrapper>
+      </NavbarCollapse>
+      <WriteBtn><svg className="icon"><use xlinkHref="#icon-yumaobi"></use></svg>写文章</WriteBtn>
+    </HeaderWrapper>
+  )
+}
 
-class Header extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      focused: false
-    }
-    this.searchOnFocus = this.searchOnFocus.bind(this)
-    this.searchonBlur = this.searchonBlur.bind(this)
-  }
-  render() {
-    return (
-      <HeaderWrapper>
-        <Logo href="/" />
-        <NavbarCollapse>
-          <NavItemWrapper>
-            <NavItem className="nav-active" href="/">首页</NavItem>
-            <NavItem>下载App</NavItem>
-            <SeacrhWrapper>
-              <CSSTransition
-                in={this.state.focused}
-                timeout={400}
-                classNames="slide"
-              >
-                <NavSearch
-                  placeholder="搜索"
-                  className={this.state.focused ? "focused" : ""}
-                  onFocus={this.searchOnFocus}
-                  onBlur={this.searchonBlur}
-                ></NavSearch>
-              </CSSTransition>
-              <SvgMagnifier className="icon"><use xlinkHref="#icon-magnifier"></use></SvgMagnifier>
-            </SeacrhWrapper>
-          </NavItemWrapper>
-          <NavRightWrapper>
-            <SvgAa className="icon"><use xlinkHref="#icon-Aa"></use></SvgAa>
-            <NavLogin>登录</NavLogin>
-            <NavRegistered>注册</NavRegistered>
-          </NavRightWrapper>
-        </NavbarCollapse>
-        <WriteBtn><svg className="icon"><use xlinkHref="#icon-yumaobi"></use></svg>写文章</WriteBtn>
-      </HeaderWrapper>
-    )
-  }
-
-  searchOnFocus() {
-    this.setState({
-      focused: true
-    })
-  }
-
-  searchonBlur() {
-    this.setState({
-      focused: false
-    })
+const mapStateToProps = (state) => {
+  return {
+    focused: state.focused
   }
 }
 
-export default Header;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    searchOnFocus() {
+      const action = {
+        type: "search_focused"
+      }
+      dispatch(action)
+    },
+    searchOnBlur() {
+      const action = {
+        type: "search_blur"
+      }
+      dispatch(action)
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

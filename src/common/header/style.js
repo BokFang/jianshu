@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import navLogo from "../nav-logo.png";
+import navLogo from "../../static/nav-logo.png";
 
 export const HeaderWrapper = styled.div`
   height: 56px;
