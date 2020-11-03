@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { CSSTransition } from 'react-transition-group';
+import { actionCreators } from "./store";
 import {
   HeaderWrapper,
   Logo,
@@ -14,7 +15,11 @@ import {
   NavRightWrapper,
   SvgAa,
   SvgMagnifier,
-  SeacrhWrapper
+  SeacrhWrapper,
+  SearchInfo,
+  SearchInfoTitle,
+  SearchInfoSwitch,
+  SearchInfoItem
 } from "./style";
 
 const Header = (props) => {
@@ -39,6 +44,7 @@ const Header = (props) => {
               ></NavSearch>
             </CSSTransition>
             <SvgMagnifier className="icon"><use xlinkHref="#icon-magnifier"></use></SvgMagnifier>
+            {getListArea(props.focused)}
           </SeacrhWrapper>
         </NavItemWrapper>
         <NavRightWrapper>
@@ -52,25 +58,40 @@ const Header = (props) => {
   )
 }
 
+const getListArea = (show) => {
+  if(show) {
+    return (
+      <SearchInfo>
+      <SearchInfoTitle>
+        <span>热门搜索</span>
+        <SearchInfoSwitch>换一批</SearchInfoSwitch>
+      </SearchInfoTitle>
+      <SearchInfoItem>理财</SearchInfoItem>
+      <SearchInfoItem>毕业</SearchInfoItem>
+      <SearchInfoItem>手账</SearchInfoItem>
+      <SearchInfoItem>简书交友</SearchInfoItem>
+      <SearchInfoItem>spring</SearchInfoItem>
+      <SearchInfoItem>JavaScript</SearchInfoItem>
+      <SearchInfoItem>node</SearchInfoItem>
+      <SearchInfoItem>koa</SearchInfoItem>
+    </SearchInfo>
+    )
+  }else return null
+}
+
 const mapStateToProps = (state) => {
   return {
-    focused: state.header.focused
+    focused: state.get("header").get("focused")
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     searchOnFocus() {
-      const action = {
-        type: "search_focused"
-      }
-      dispatch(action)
+      dispatch(actionCreators.searchFocus())
     },
     searchOnBlur() {
-      const action = {
-        type: "search_blur"
-      }
-      dispatch(action)
+      dispatch(actionCreators.searchBlur())
     }
   }
 }

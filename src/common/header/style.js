@@ -91,6 +91,44 @@ export const NavSearch = styled.input`
     width: 240px;
   }
 `
+
+export const SearchInfo = styled.div`
+  position: absolute;
+  top: 56px;
+  left: 0;
+  padding: 0 20px;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(0,0,0,.2);
+  width: 200px;
+`
+
+export const SearchInfoTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  line-height: 20px;
+  font-size: 14px;
+  color: #969696;
+`
+
+export const SearchInfoSwitch = styled.div`
+  font-size: 13px;
+`
+
+export const SearchInfoItem = styled.div`
+  display: block;
+  float: left;
+  line-height: 20px;
+  padding: 0 5px;
+  font-size: 12px;
+  border: 1px solid #ddd;
+  color: #969696;
+  border-radius: 3px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+`
+
 export const NavLogin = styled.div`
   color: #969696;
   margin: 11px 6px 0 10px;
@@ -132,3 +170,5 @@ export const SvgMagnifier = styled.svg`
   color: #969696!important;
   text-align: center;
 `
+
+
