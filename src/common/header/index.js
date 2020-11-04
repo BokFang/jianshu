@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { CSSTransition } from 'react-transition-group';
 import { actionCreators } from "./store";
@@ -22,66 +22,67 @@ import {
   SearchInfoItem
 } from "./style";
 
-const Header = (props) => {
-  return (
-    <HeaderWrapper>
-      <Logo href="/" />
-      <NavbarCollapse>
-        <NavItemWrapper>
-          <NavItem className="nav-active" href="/">首页</NavItem>
-          <NavItem>下载App</NavItem>
-          <SeacrhWrapper>
-            <CSSTransition
-              in={props.focused}
-              timeout={400}
-              classNames="slide"
-            >
-              <NavSearch
-                placeholder="搜索"
-                className={props.focused ? "focused" : ""}
-                onFocus={props.searchOnFocus}
-                onBlur={props.searchOnBlur}
-              ></NavSearch>
-            </CSSTransition>
-            <SvgMagnifier className="icon"><use xlinkHref="#icon-magnifier"></use></SvgMagnifier>
-            {getListArea(props.focused)}
-          </SeacrhWrapper>
-        </NavItemWrapper>
-        <NavRightWrapper>
-          <SvgAa className="icon"><use xlinkHref="#icon-Aa"></use></SvgAa>
-          <NavLogin>登录</NavLogin>
-          <NavRegistered>注册</NavRegistered>
-        </NavRightWrapper>
-      </NavbarCollapse>
-      <WriteBtn><svg className="icon"><use xlinkHref="#icon-yumaobi"></use></svg>写文章</WriteBtn>
-    </HeaderWrapper>
-  )
-}
-
-const getListArea = (show) => {
-  if(show) {
+class Header extends Component {
+  render() {
+    const { focused, searchOnFocus, searchOnBlur } = this.props;
     return (
-      <SearchInfo>
-      <SearchInfoTitle>
-        <span>热门搜索</span>
-        <SearchInfoSwitch>换一批</SearchInfoSwitch>
-      </SearchInfoTitle>
-      <SearchInfoItem>理财</SearchInfoItem>
-      <SearchInfoItem>毕业</SearchInfoItem>
-      <SearchInfoItem>手账</SearchInfoItem>
-      <SearchInfoItem>简书交友</SearchInfoItem>
-      <SearchInfoItem>spring</SearchInfoItem>
-      <SearchInfoItem>JavaScript</SearchInfoItem>
-      <SearchInfoItem>node</SearchInfoItem>
-      <SearchInfoItem>koa</SearchInfoItem>
-    </SearchInfo>
+      <HeaderWrapper>
+        <Logo href="/" />
+        <NavbarCollapse>
+          <NavItemWrapper>
+            <NavItem className="nav-active" href="/">首页</NavItem>
+            <NavItem>下载App</NavItem>
+            <SeacrhWrapper>
+              <CSSTransition
+                in={focused}
+                timeout={400}
+                classNames="slide"
+              >
+                <NavSearch
+                  placeholder="搜索"
+                  className={focused ? "focused" : ""}
+                  onFocus={searchOnFocus}
+                  onBlur={searchOnBlur}
+                ></NavSearch>
+              </CSSTransition>
+              <SvgMagnifier className="icon"><use xlinkHref="#icon-magnifier"></use></SvgMagnifier>
+              {this.getListArea(focused)}
+            </SeacrhWrapper>
+          </NavItemWrapper>
+          <NavRightWrapper>
+            <SvgAa className="icon"><use xlinkHref="#icon-Aa"></use></SvgAa>
+            <NavLogin>登录</NavLogin>
+            <NavRegistered>注册</NavRegistered>
+          </NavRightWrapper>
+        </NavbarCollapse>
+        <WriteBtn><svg className="icon"><use xlinkHref="#icon-yumaobi"></use></svg>写文章</WriteBtn>
+      </HeaderWrapper>
     )
-  }else return null
+  }
+  getListArea() {
+    const { focused, list } = this.props;
+    if (focused) {
+      return (
+        <SearchInfo>
+          <SearchInfoTitle>
+            <span>热门搜索</span>
+            <SearchInfoSwitch>换一批</SearchInfoSwitch>
+          </SearchInfoTitle>
+          {
+            list.map((item) => {
+              return <SearchInfoItem key={item}>{item}</SearchInfoItem>
+            })
+          }
+        </SearchInfo>
+      )
+    } else return null
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
-    focused: state.get("header").get("focused")
+    focused: state.getIn(["header", "focused"]),
+    list: state.getIn(["header", "list"])
   }
 }
 
@@ -89,6 +90,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     searchOnFocus() {
       dispatch(actionCreators.searchFocus())
+      dispatch(actionCreators.getSearchList())
     },
     searchOnBlur() {
       dispatch(actionCreators.searchBlur())

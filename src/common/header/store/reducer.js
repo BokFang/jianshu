@@ -2,16 +2,22 @@ import * as actionTypes from "./actionTypes";
 import { fromJS } from "immutable";
 
 const defaultState = fromJS({
-  focused: false
+  focused: false,
+  list: [],
+  page: 1,
+  totalPage: 1
 })
 const headerReducer = (state = defaultState, action) => {
-  if (action.type === actionTypes.SEARCH_FOCUS) {
-    return state.set("focused", true)
+  switch (action.type) {
+    case actionTypes.SEARCH_FOCUS:
+      return state.set("focused", true)
+    case actionTypes.SEARCH_BLUR:
+      return state.set("focused", false)
+    case actionTypes.CHANGE_LIST:
+      return state.set("list", action.data)
+    default:
+      return state
   }
-  if (action.type === actionTypes.SEARCH_BLUR) {
-    return state.set("focused", false)
-  }
-  return state
 }
 
 export default headerReducer;
