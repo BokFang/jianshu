@@ -24,7 +24,7 @@ import {
 
 class Header extends Component {
   render() {
-    const { focused, searchOnFocus, searchOnBlur } = this.props;
+    const { focused, list, searchOnFocus, searchOnBlur, } = this.props;
     return (
       <HeaderWrapper>
         <Logo href="/" />
@@ -41,12 +41,12 @@ class Header extends Component {
                 <NavSearch
                   placeholder="搜索"
                   className={focused ? "focused" : ""}
-                  onFocus={searchOnFocus}
+                  onFocus={() => searchOnFocus(list)}
                   onBlur={searchOnBlur}
                 ></NavSearch>
               </CSSTransition>
               <SvgMagnifier className="icon"><use xlinkHref="#icon-magnifier"></use></SvgMagnifier>
-              {this.getListArea(focused)}
+              {this.getListArea()}
             </SeacrhWrapper>
           </NavItemWrapper>
           <NavRightWrapper>
@@ -60,19 +60,34 @@ class Header extends Component {
     )
   }
   getListArea() {
-    const { focused, list } = this.props;
-    if (focused) {
+    const { focused, list, page, totalPage, mouseIn, handleMouseEnter, handleMouseLeave, handlePageChange } = this.props;
+    const newList = list.toJS()
+    const pageList = []
+
+    if (newList.length) {
+      for (let i = (page - 1) * 10; i < page * 10; i++) {
+        pageList.push(
+          <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+        )
+      }
+    }
+
+    if (focused || mouseIn) {
       return (
-        <SearchInfo>
+        <SearchInfo
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <SearchInfoTitle>
             <span>热门搜索</span>
-            <SearchInfoSwitch>换一批</SearchInfoSwitch>
+            <SearchInfoSwitch
+              onClick={() => { handlePageChange(page, totalPage) }}
+            >
+              <svg className="icon"><use xlinkHref="#icon-spin"></use></svg>
+              换一批
+              </SearchInfoSwitch>
           </SearchInfoTitle>
-          {
-            list.map((item) => {
-              return <SearchInfoItem key={item}>{item}</SearchInfoItem>
-            })
-          }
+          {pageList}
         </SearchInfo>
       )
     } else return null
@@ -82,18 +97,35 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return {
     focused: state.getIn(["header", "focused"]),
-    list: state.getIn(["header", "list"])
+    mouseIn: state.getIn(["header", "mouseIn"]),
+    list: state.getIn(["header", "list"]),
+    page: state.getIn(["header", "page"]),
+    totalPage: state.getIn(["header", "totalPage"]),
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    searchOnFocus() {
+    searchOnFocus(list) {
       dispatch(actionCreators.searchFocus())
-      dispatch(actionCreators.getSearchList())
+      if (list.size === 0) dispatch(actionCreators.getSearchList())
     },
     searchOnBlur() {
       dispatch(actionCreators.searchBlur())
+    },
+    handleMouseEnter() {
+      dispatch(actionCreators.mouseIn())
+    },
+    handleMouseLeave() {
+      dispatch(actionCreators.mouseOut())
+    },
+    handlePageChange(page, totalPage) {
+
+      if (page < totalPage) {
+        dispatch(actionCreators.pageChange(page + 1))
+      } if (page === totalPage) {
+        dispatch(actionCreators.pageChange(1))
+      }
     }
   }
 }

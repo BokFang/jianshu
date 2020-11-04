@@ -100,6 +100,7 @@ export const SearchInfo = styled.div`
   background-color: #fff;
   box-shadow: 0 0 8px rgba(0,0,0,.2);
   width: 200px;
+  user-select: none;
 `
 
 export const SearchInfoTitle = styled.div`
@@ -114,6 +115,10 @@ export const SearchInfoTitle = styled.div`
 
 export const SearchInfoSwitch = styled.div`
   font-size: 13px;
+  cursor: pointer;
+  &:hover {
+    color:#aaa;
+  }
 `
 
 export const SearchInfoItem = styled.div`
