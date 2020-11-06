@@ -1,0 +1,51 @@
+.recommand-wrapper {
+  padding: 20px 0;
+  border-bottom: 1px solid #dcdcdc;
+  overflow: hidden;
+
+  .img {
+    width: 150px;
+    height: 100px;
+    display: block;
+    float: right;
+  }
+
+  .title {
+    line-height: 27px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .desc {
+    line-height: 24px;
+    font-size: 13px;
+    color: #999;
+  }
+
+  .info-wrapper {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  .diamond {
+    margin-right: 10px;
+    color: #ea6f5a;
+  }
+
+  .user {
+    margin-right: 10px;
+    color: #b4b4b4;
+  }
+
+  .comments {
+    margin-right: 10px;
+    color: #b4b4b4;
+  }
+
+  .likes {
+    margin-right: 10px;
+    color: #b4b4b4;
+  }
+}

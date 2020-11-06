@@ -30,8 +30,8 @@ class Header extends Component {
         <Logo href="/" />
         <NavbarCollapse>
           <NavItemWrapper>
-            <NavItem className="nav-active" href="/">首页</NavItem>
-            <NavItem>下载App</NavItem>
+            <NavItem className="nav-active" href="/"><svg className="icon"><use xlinkHref="#icon-compass"></use></svg>首页</NavItem>
+            <NavItem><svg className="icon"><use xlinkHref="#icon-download"></use></svg>下载App</NavItem>
             <SeacrhWrapper>
               <CSSTransition
                 in={focused}

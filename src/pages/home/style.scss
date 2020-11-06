@@ -1,0 +1,18 @@
+.home-wrapper {
+  width: 960px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  .home-left {
+    float: left;
+    width: 625px;
+    margin-left: 15px;
+    padding-top: 30px;
+  }
+
+  .home-right {
+    width: 280px;
+    padding-top: 30px;
+    float: right;
+  }
+}

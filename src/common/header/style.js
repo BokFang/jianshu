@@ -14,6 +14,9 @@ export const Logo = styled.a`
 `
 
 export const NavbarCollapse = styled.div`
+  box-sizing:border-box;
+  width: 960px;
+  margin: 0 auto;
   flex: 1;
   display: flex;
   justify-content: space-between;
